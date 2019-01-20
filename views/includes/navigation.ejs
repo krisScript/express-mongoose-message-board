@@ -1,0 +1,66 @@
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <p class="navbar-item">MSG</p>
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+          <% if (isAuthenticated) { %>
+            <div class="navbar-menu is-dark">
+                <a class="navbar-item has-text-white" href="/">Home</a>
+                <a class="navbar-item has-text-white" href="/add-message">Add Message</a>
+                <a class="navbar-item has-text-white" href="/messages">Messages</a>
+              <a class="navbar-item has-text-white" href="/user-messages">My Messages</a>
+            </div>
+            <div class="navbar-dropdown">
+                <a class="navbar-item">
+                  About
+                </a>
+                <a class="navbar-item">
+                  Jobs
+                </a>
+                <a class="navbar-item">
+                  Contact
+                </a>
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
+              </div>
+        <% } %>
+        
+          
+        </div>
+      </div>
+  
+      <div class="navbar-end">
+          <div class="navbar-item">
+           <% if (!isAuthenticated) { %>
+             <div class="buttons">
+               <a href="/signup" class="button is-link">
+                 <strong>Sign up</strong>
+               </a>
+               <a href="/login" class="button is-primary">
+                  <strong>Login</strong>
+                </a>
+                
+             </div>
+                 
+             
+           <% }
+           else { %>
+            <div class="navbar-item">
+             <form action="/logout" method="post">
+               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+               <button class="button is-link" type="submit">Logout</button>
+           </form>
+            </div>
+             <% } %>
+          </div>
+        </div>
+  </nav>

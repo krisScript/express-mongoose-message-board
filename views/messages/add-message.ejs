@@ -1,0 +1,39 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <section class="section">
+        <div class="container has-text-centered">
+            <h1 class="title is-size-1">Add Message</h1>
+        </div>
+        <div class="box">
+            <form action="/<% if (editing) { %>edit-message<% } else { %>add-message<% } %>" method="POST">
+                    <div class="field">
+                            <label class="label">Title</label>
+                            <div class="control has-icons-left has-icons-right">
+                              <input class="input" required type="text" placeholder="Text input" name="title" value="<% if (editing) { %><%= message.title %><% } %>" required>
+                            </div>
+                          </div> 
+                          <div class="field">
+                            <label class="label">Message</label> 
+                              <textarea class="textarea"  placeholder="Textarea" name="messageContent" required><% if (editing) { %><%= message.messageContent %><% } %></textarea>
+                            </div>
+                          </div>
+                          <% if (editing) { %>
+                            <input type="hidden" value="<%= message._id %>" name="messageId">
+                        <% } %>
+            
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                          <div class="field is-grouped">
+                            <div class="control">
+                              <button class="button is-link">Submit</button>
+                            </div>
+                          </div>
+            </form>
+        </div>
+        </section>
+    
+        
+   
+
+<%- include('../includes/end.ejs') %>

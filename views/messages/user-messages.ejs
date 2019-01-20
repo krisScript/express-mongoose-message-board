@@ -1,0 +1,50 @@
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <section class="section">
+        <div class="container has-text-centered">
+                <h1 class="title is-size-1">
+                        Message Board
+                </h1>
+        </div>
+        <section class="section">
+          <% if (messages.length > 0) { %>
+            <div class="columns is-multiline">
+                <% for (let message of messages) { %>
+                  <div class="column is-one-quarter">
+                    <div class="card">
+                        <header class="card-header">
+                          <p class="card-header-title">
+                            <%= message.title %>
+                          </p>
+                          <a href="#" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                          </a>
+                        </header>
+                        <div class="card-content">
+                          <div class="content">
+                             <p><%= message.message %></p>
+                            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  
+                    <% } %>
+                    </div>
+            <% } else { %>
+               <div class="container has-text-centered">
+                 <h2 class="title is-size-4">No Messages Found!  <a class="is-link" href="/add-message">Share your message Now</a></h2>
+                
+               </div>
+                <% } %>
+        </section>
+      </section>
+    
+        
+   
+
+<%- include('../includes/end.ejs') %>

@@ -1,0 +1,70 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+  
+  <body>
+      <%- include('../includes/navigation.ejs') %>
+   <section class="section">
+     </div>
+     <div class="box">
+      <h2 class="title is-size-4"><%= signup ? 'Sign Up' : 'Login' %></h2>
+      <form method="POST" action="/<% if (signup) { %>signup<% } else { %>login<% } %>" >  
+        <% if (signup) { %>
+          <div class="field">
+            <label class="label">First Name</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input " type="text" placeholder="Enter your first name" name="firstName" required>
+              <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Last Name</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input " type="text" placeholder="Enter your last name" name="lastName" required>
+              <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+              </span>
+            </div>
+          </div>
+          <% }  %>
+       <div class="field">
+         <label class="label">Email</label>
+         <div class="control has-icons-left has-icons-right">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+           <input class="input " type="email" placeholder="Enter your email" name="email" required>
+           <span class="icon is-small is-left">
+             <i class="fas fa-envelope"></i>
+           </span>
+         </div>
+       </div>
+       <div class="field">
+          <label class="label">Password</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input " type="password" placeholder="Enter your password" name="password" required>
+            <span class="icon is-small is-left">
+                <i class="fas fa-key"></i>
+            </span>
+          </div>
+        </div>
+        <% if (signup) { %>
+          <div class="field">
+            <label class="label">Repeat Your Password</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input " type="password" placeholder="Enter your password" name="passwordMatch" required>
+              <span class="icon is-small is-left">
+                  <i class="fas fa-key"></i>
+              </span>
+            </div>
+          </div>
+          <% }  %>
+       <div class="field is-grouped">
+         <div class="control">
+           <button class="button is-link"><%= signup ? 'Sign Up' : 'Login' %></button>
+         </div>
+       </div>
+      </form>
+  </div>
+   </section>
+
+    <%- include('../includes/end.ejs') %>
