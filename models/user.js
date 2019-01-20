@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  firstName:{
-    type:String,
-    required:true,
+  firstName: {
+    type: String,
+    required: true
   },
-  lastName:{
-    type:String,
-    required:true,
+  lastName: {
+    type: String,
+    required: true
   },
   email: {
     type: String,
@@ -19,6 +19,8 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  resetToken: String,
+  resetTokenExpiration: Date,
   messagesData: {
     messages: [
       {
@@ -38,10 +40,10 @@ userSchema.methods.addMessage = message => {
   });
   const udpatedMessages = [...this.messagesData.messages];
 
-    udpatedMessages.push({
-      messageId: message._id,
-    });
-  
+  udpatedMessages.push({
+    messageId: message._id
+  });
+
   const updatedContactsData = {
     messages: udpatedMessages
   };

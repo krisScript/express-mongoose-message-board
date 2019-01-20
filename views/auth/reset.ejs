@@ -1,0 +1,33 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+  
+  <body>
+      <%- include('../includes/navigation.ejs') %>
+   <section class="section">
+     </div>
+     <div class="box">
+       
+      <h2 class="title is-size-4">Reet Password</h2>
+      <form method="POST" action="/reset">  
+       
+       <div class="field">
+         <label class="label">Email</label>
+         <div class="control has-icons-left has-icons-right">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+           <input class="input " type="email" placeholder="Enter your email" name="email" required>
+           <span class="icon is-small is-left">
+             <i class="fas fa-envelope"></i>
+           </span>
+         </div>
+       </div>
+       
+       <div class="field is-grouped">
+         <div class="control">
+           <button class="button is-link">Reset</button>
+         </div>
+       </div>
+      </form>
+  </div>
+   </section>
+
+    <%- include('../includes/end.ejs') %>

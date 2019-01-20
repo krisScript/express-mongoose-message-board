@@ -53,12 +53,15 @@ exports.postEditMessage = (req, res, next) => {
   const updatedMessageContent = req.body.messageContent;
   Message.findById(messageId)
     .then(message => {
+      if(message.userId.toString() !== req.user._id.toString()){
+        return res.redirect('/')
+      }
       message.title = updatedTitle;
       message.messageContent = updatedMessageContent;
-      return message.save();
-    })
-    .then(result => {
-      res.redirect('/user-messages');
+      return message.save()
+      .then(result => {
+        res.redirect('/user-messages');
+      })
     })
     .catch(error => {throw error});
 };
@@ -89,7 +92,7 @@ exports.getAllMessages = (req,res,next) => {
 }
 exports.postDeleteMessage = (req, res, next) => {
   const {messageId} = req.body;
-  Message.findByIdAndRemove(messageId)
+  Message.deleteOne({_id:messageId,userId:req.iser._id})
     .then(() => {
       res.redirect('/user-messages');
     })

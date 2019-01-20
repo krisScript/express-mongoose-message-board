@@ -6,6 +6,7 @@
    <section class="section">
      </div>
      <div class="box">
+       
       <h2 class="title is-size-4"><%= signup ? 'Sign Up' : 'Login' %></h2>
       <form method="POST" action="/<% if (signup) { %>signup<% } else { %>login<% } %>" >  
         <% if (signup) { %>
@@ -61,6 +62,7 @@
        <div class="field is-grouped">
          <div class="control">
            <button class="button is-link"><%= signup ? 'Sign Up' : 'Login' %></button>
+           <a class="is-dark" href="/reset">Forgot your password?</a>
          </div>
        </div>
       </form>
