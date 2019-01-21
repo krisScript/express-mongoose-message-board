@@ -1,10 +1,11 @@
 const express = require('express');
-const { body } = require('express-validator/check');
-const authController = require('../controllers/auth');
+
+const {body} = require('express-validator/check');
 
 const router = express.Router();
-
 const User = require('../models/user');
+const authController = require('../controllers/auth');
+
 router.get('/login', authController.getLogin);
 
 router.get('/signup', authController.getSignup);
@@ -25,6 +26,12 @@ router.post(
 router.post(
   '/signup',
   [
+    body('firstName','please enter valid name')
+    .isLength({min:1})
+    .isString(),
+    body('lastName','please enter valid name')
+    .isLength({min:1})
+    .isString(),
     body('email', 'Please enter valid email!')
       .isEmail()
       .custom((email, { req }) => {
@@ -38,8 +45,10 @@ router.post(
       }),
     body('password', 'Please enter password with atleast 8 character long ')
       .isLength({ min: 8 })
-      .isAlphanumeric(),
-    body('matchPassword').custom(value => {
+      .isAlphanumeric()
+      .trim(),
+    body('matchPassword').trim().isLength({ min: 8 })
+    .isAlphanumeric().custom((value, {req}) => {
       if (value !== req.body.password) {
         throw new Error('Passwords have to match!');
       }

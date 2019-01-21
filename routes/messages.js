@@ -4,7 +4,7 @@ const messagesController = require('../controllers/messages');
 const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
-
+const {body} = require('express-validator/check');
 router.get('/add-message', isAuth, messagesController.getAddMessage);
 
 router.get('/messages', isAuth, messagesController.getAllMessages);
@@ -18,7 +18,7 @@ router.post(
       .isString()
       .isLength({ min: 3 })
       .trim(),
-    body('messageContent')
+    body('messageContent','Message should be atleast 5 letters')
       .isLength({ min: 5, max: 400 })
       .trim()
   ],
@@ -35,11 +35,11 @@ router.get(
 router.post(
   '/edit-message',
   [
-    body('title')
+    body('title','Invalid Title')
       .isString()
-      .isLength({ min: 3 })
+      .isLength({ min: 1 })
       .trim(),
-    body('description')
+    body('messageContent','Message should be atleast 5 letters')
       .isLength({ min: 5, max: 400 })
       .trim()
   ],

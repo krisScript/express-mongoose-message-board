@@ -1,10 +1,12 @@
 const Message = require('../models/message');
-
+const { validationResult } = require('express-validator/check');
 exports.getAddMessage = (req, res, next) => {
   res.render('messages/add-message', {
     title: 'Add Message',
     path: '/add-message',
-    editing: false
+    editing: false,
+    errorMessage:false,
+    validationErrors: []
   });
 };
 
@@ -15,7 +17,7 @@ exports.postAddMessage = (req, res, next) => {
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return res.status(422).render('messages/add-message', {
-      pageTitle: 'Add Message',
+      title: 'Add Message',
       path: '/add-message',
       editing: false,
       hasError: true,
@@ -80,7 +82,7 @@ exports.postEditMessage = (req, res, next) => {
 
   if (!errors.isEmpty()) {
     return res.status(422).render('messages/add-message', {
-      pageTitle: 'Edit Message',
+      title: 'Edit Message',
       path: '/edit-message',
       editing: true,
       hasError: true,
@@ -139,7 +141,7 @@ exports.getAllMessages = (req, res, next) => {
 };
 exports.postDeleteMessage = (req, res, next) => {
   const { messageId } = req.body;
-  Message.deleteOne({ _id: messageId, userId: req.iser._id })
+  Message.deleteOne({ _id: messageId, userId: req.user._id })
     .then(() => {
       res.redirect('/user-messages');
     })

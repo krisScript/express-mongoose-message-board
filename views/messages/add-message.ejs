@@ -16,12 +16,15 @@
                     <div class="field">
                             <label class="label">Title</label>
                             <div class="control has-icons-left has-icons-right">
-                              <input class="input" required type="text" placeholder="Text input" name="title" value="<% if (editing) { %><%= message.title %><% } %>" required>
+                              <input class="input <%= validationErrors.find(e => e.param === 'title') ? 'is-danger' : '' %>" required type="text" placeholder="Text input" name="title" value="<% if (editing) { %><%= message.title %><% } %>" required>
+                              <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                              </span>
                             </div>
                           </div> 
                           <div class="field">
                             <label class="label">Message</label> 
-                              <textarea class="textarea"  placeholder="Textarea" name="messageContent" required><% if (editing) { %><%= message.messageContent %><% } %></textarea>
+                              <textarea class="textarea <%= validationErrors.find(e => e.param === 'messageContent') ? 'is-danger' : '' %>"  placeholder="Textarea" name="messageContent" required><% if (editing) { %><%= message.messageContent %><% } %></textarea>
                             </div>
                           </div>
                           <% if (editing) { %>

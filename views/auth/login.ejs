@@ -19,7 +19,7 @@
           <div class="field">
             <label class="label">First Name</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input " type="text" placeholder="Enter your first name" name="firstName" required value="<%= signup ? oldInput.firstName : '' %>">
+              <input class="input <%= validationErrors.find(e => e.param === 'firstName') ? 'is-danger' : '' %>" type="text" placeholder="Enter your first name" name="firstName" required value="<%= signup ? oldInput.firstName : '' %>">
               <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
               </span>
@@ -28,7 +28,7 @@
           <div class="field">
             <label class="label">Last Name</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input " type="text" placeholder="Enter your last name" name="lastName" required value="<%= signup ? oldInput.lastName : '' %>">
+              <input class="input <%= validationErrors.find(e => e.param === 'lastName') ? 'is-danger' : '' %>" type="text" placeholder="Enter your last name" name="lastName" required value="<%= signup ? oldInput.lastName : '' %>">
               <span class="icon is-small is-left">
               <i class="fas fa-user"></i>
               </span>
@@ -39,7 +39,7 @@
          <label class="label">Email</label>
          <div class="control has-icons-left has-icons-right">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-           <input class="input " type="email" placeholder="Enter your email" name="email" value="<%= signup ? oldInput.email : '' %>" required>
+           <input class="input <%= validationErrors.find(e => e.param === 'email') ? 'is-danger' : '' %>" type="email" placeholder="Enter your email" name="email" value="<%= signup ? oldInput.email : '' %>" required>
            <span class="icon is-small is-left">
              <i class="fas fa-envelope"></i>
            </span>
@@ -48,7 +48,7 @@
        <div class="field">
           <label class="label">Password</label>
           <div class="control has-icons-left has-icons-right">
-            <input class="input " type="password" placeholder="Enter your password" name="password" value="<%= signup ? oldInput.password : '' %>" required>
+            <input class="input <%= validationErrors.find(e => e.param === 'password') ? 'is-danger' : '' %>" type="password" placeholder="Enter your password" name="password" value="<%= signup ? oldInput.password : '' %>" required>
             <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
             </span>
@@ -58,7 +58,7 @@
           <div class="field">
             <label class="label">Repeat Your Password</label>
             <div class="control has-icons-left has-icons-right">
-              <input class="input " type="password" placeholder="Enter your password" name="matchPassword" value="<%= signup ? oldInput.matchPassword : '' %>" required>
+              <input class="input <%= validationErrors.find(e => e.param === 'matchPassword') ? 'is-danger' : '' %>" type="password" placeholder="Enter your password" name="matchPassword" value="<%= signup ? oldInput.matchPassword : '' %>" required>
               <span class="icon is-small is-left">
                   <i class="fas fa-key"></i>
               </span>
