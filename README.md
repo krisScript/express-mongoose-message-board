@@ -1,6 +1,6 @@
-# Contacts App
+# Message Board 
 
-App build with express,mongoose and styled with bulma that allows users to safe their contacts.
+Message board build with express,mongoose and styled with bulma that allows users to post their message on public message board.
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.

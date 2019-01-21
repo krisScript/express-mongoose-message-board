@@ -27,7 +27,7 @@ const sassMiddleware = require('node-sass-middleware');
 const app = express();
 
 const MONGODB_URI =
-  'mongodb+srv://kristiyan:EsZ3ISfqrwBXJG6L@cluster0-zmcyw.mongodb.net/messageBoard?retryWrites=true'
+  'Your Mongo Connection'
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: 'sessions'
