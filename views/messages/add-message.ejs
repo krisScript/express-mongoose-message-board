@@ -7,6 +7,11 @@
             <h1 class="title is-size-1">Add Message</h1>
         </div>
         <div class="box">
+            <% if (errorMessage) { %>
+              <div class="notification is-danger">
+                <p><%= errorMessage %></p>
+              </div>
+            <% } %>
             <form action="/<% if (editing) { %>edit-message<% } else { %>add-message<% } %>" method="POST">
                     <div class="field">
                             <label class="label">Title</label>

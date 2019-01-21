@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const User = require('../models/user');
 const crypto = require('crypto');
+const { validationResult } = require('express-validator/check');
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
@@ -37,20 +38,33 @@ exports.getSignup = (req, res, next) => {
     path: '/signup',
     title: 'Signup',
     signup: true,
-    errorMessage: message
+    errorMessage: message,
+    oldInput: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      matchPassword: ''
+    }
   });
 };
 
 exports.postLogin = (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  User.findOne({ email: email })
+  const { email, password } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status().render('auth/login', {
+      path: '/login',
+      pageTitle: 'Login',
+      errorMessage: errors.array()[0].msg
+    });
+  }
+  User.findOne({ email})
     .then(user => {
       if (!user) {
         req.flash('error', 'Invalid email or password.');
         return res.redirect('/login');
       }
-
       bcrypt
         .compare(password, user.password)
         .then(doMatch => {
@@ -74,45 +88,41 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body;
-  console.log('is this activated');
-  User.findOne({ email: email })
-    .then(userDoc => {
-      if (userDoc) {
-        req.flash(
-          'error',
-          'E-Mail exists already, please pick a different one.'
-        );
-        return res.redirect('/signup');
-      }
-      return bcrypt
-        .hash(password, 12)
-        .then(hashedPassword => {
-          const user = new User({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-            messagesData: { messages: [] }
-          });
-          return user.save();
-        })
-        .then(result => {
-          res.redirect('/login');
-          return transporter
-            .sendMail({
-              to: email,
-              from: 'test@mail.com',
-              subject: 'Signup Succseeded',
-              html: '<h1>OK:Login</h1>'
-            })
-            .catch(error => {
-              throw error;
-            });
-        });
+  const { firstName, lastName, email, password, matchPassword } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render('auth/login', {
+      path: '/signup',
+      title: 'Signup',
+      signup: true,
+      errorMessage: errors.array()[0].msg,
+      oldInput: { email, password, firstName, lastName, matchPassword }
+    });
+  }
+  bcrypt
+    .hash(password, 12)
+    .then(hashedPassword => {
+      const user = new User({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        messagesData: { messages: [] }
+      });
+      return user.save();
     })
-    .catch(err => {
-      console.log(err);
+    .then(result => {
+      res.redirect('/login');
+      return transporter
+        .sendMail({
+          to: email,
+          from: 'test@mail.com',
+          subject: 'Signup Succseeded',
+          html: '<h1>OK:Login</h1>'
+        })
+        .catch(error => {
+          throw error;
+        });
     });
 };
 
@@ -200,20 +210,20 @@ exports.postNewPassword = (req, res, next) => {
     resetTokenExpiration: { $gt: Date.now() },
     _id: userId
   })
-  .then(user =>{
-    resetUser = user
-    return bcrypt.hash(newPassword,12)
-  })
-  .then(hashedPassword => {
-    resetUser.password = hashedPassword;
-    resetUser.resetToken = null;
-    resetTokenExpiration = undefined;
-    return resetUser.save()
-  })
-  .then(result => {
-    res.redirect('/login')
-  })
-  .catch(error => {
-    throw error
-  })
+    .then(user => {
+      resetUser = user;
+      return bcrypt.hash(newPassword, 12);
+    })
+    .then(hashedPassword => {
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = null;
+      resetTokenExpiration = undefined;
+      return resetUser.save();
+    })
+    .then(result => {
+      res.redirect('/login');
+    })
+    .catch(error => {
+      throw error;
+    });
 };
